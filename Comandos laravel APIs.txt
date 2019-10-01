@@ -1,0 +1,65 @@
+-------CREANDO UN PROYECTO LARAVEL ----------
+
+  composer create-project laravel/laravel api-rest-laravel "5.7.*" --prefer-dist
+
+
+---- Accedemos a la carpeta que se creo con el proyecto laravel
+
+	cd api-rest-laravel
+
+----- Creamos un modelo -------
+
+	php artisan make:model Category
+
+
+------ Creamos un controlador -------
+
+	php artisan make:controller CategoryController
+
+
+------ Levantar el servidor para probar la pagina -------
+
+	php artisan serve
+
+
+-------  Listar todas las rutas que tenemos ----------
+
+	php artisan route:list
+
+
+-------- Si quieremos agregar el JWT en nuestro projecto ---------
+
+	en el archivo composer.json  en la parte donde dice "require" agregamos "firebase/php-jwt": "3.0.0"  entre comillas la version 3.0.0 es la version más estable hasta ahorita 18/Marzo/2019
+
+	ejecutamos el siguiente comando:   
+
+	composer update    //para ejecutar la actualización de lo que agregamos al archivo.
+
+------- Crear un provider para el jwt -----------
+
+	php artisan make:provider JwtAuthServiceProvider
+	
+	// Despues de crear el provider lo registramos en la carpeta config/app.php en providers agregamos:  App\Providers\JwtAuthServiceProvider::class
+
+	// Y en aliases agregamos un alias para no escribir toda la ruta donde esta el archivo o la clase que trabaja con el provider, agregamos:  'JwtAuth' => App\Helpers\JwtAuth::class
+
+
+
+------ Crear un middleware -----------
+
+	php artisan make:middleware ApiAuthMiddleware
+
+	// Registrar ell middleware para que funcione. En la carpeta http/kernel registrarlo en routeMiddleware
+
+
+------ Crear otras carpetas para guardar imagenes --------
+
+	// En la carpeta storage/app crear carpetas donde quieres guardas las imagenes carpeta como images o userimages etc.
+	// Luego en la caperta config/filesystems.php agregar en disks la carpeta que creaste y la ruta ejemplo:
+
+	'images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/images'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
